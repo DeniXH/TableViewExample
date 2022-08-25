@@ -36,6 +36,7 @@ class ViewController: UIViewController {
        button.setTitle("Press to add", for: .normal)
        button.backgroundColor = #colorLiteral(red: 0.469851315, green: 0.4130082726, blue: 1, alpha: 1)
        button.layer.cornerRadius = 20
+        button.addTarget(self, action: #selector(buttonAction), for: .touchUpInside)
        return button
     }()
 
@@ -56,6 +57,29 @@ class ViewController: UIViewController {
         view.addSubview(tableView)
         view.addSubview(textField)
         view.addSubview(buttonAddCell)
+    }
+
+    private func showAlert() {
+        let alert = UIAlertController(
+         title: "Ошибка",
+         message: "Пустое поле, введите имя",
+         preferredStyle: .alert)
+
+        alert.addAction(UIAlertAction(title: "Ок!", style: .cancel, handler: { event in
+
+        }))
+        self.present(alert, animated: true)
+    }
+
+    @objc private func buttonAction() {
+        if !textField.hasText {
+           showAlert()
+        } else {
+            names.append(textField.text ?? "")
+            icons.append("pause")
+            tableView.reloadData()
+            textField.text?.removeAll()
+        }
     }
 
     private func setupLayout() {
